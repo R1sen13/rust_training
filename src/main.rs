@@ -1,3 +1,4 @@
+#[derive(Copy, Clone)]
 enum TaskStatus {
     Completed,
     Active,
@@ -12,7 +13,7 @@ fn print_task(task: &Task) {
     println!("Задача: '{}'", task.title);
     match task.status {
         TaskStatus::Active => println!("Статус: Активна"),
-        TaskStatus::Completed => println!("Статус: Выполнена")
+        TaskStatus::Completed => println!("Статус: Выполнена"),
     }
     println!();
 }
@@ -22,7 +23,7 @@ fn count_completed(tasks: &[Task]) -> usize {
     for task in tasks {
         match task.status {
             TaskStatus::Completed => count += 1,
-            TaskStatus::Active => continue,
+            TaskStatus::Active => {},
         }
     }
     count
