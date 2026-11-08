@@ -1,4 +1,14 @@
+struct Task {
+    title: String,
+    completed: bool,
+}
+
 fn main() {
-    let a: i32 = 1;
-    println!("a = {}", a);
+    let task = Task {
+        title: String::from("Задача 1"),
+        completed: false,
+    };
+
+    println!("Задача: '{}'", task.title);
+    println!("Выполнена: {}", task.completed);
 }
