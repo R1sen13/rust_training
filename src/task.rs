@@ -1,9 +1,12 @@
-#[derive(Copy, Clone)]
+use serde::{Deserialize, Serialize};
+
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub enum TaskStatus {
     Completed,
     Active,
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct Task {
     pub id: usize,
     pub title: String,
