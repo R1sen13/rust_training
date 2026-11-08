@@ -1,104 +1,15 @@
-#[derive(Copy, Clone)]
-enum TaskStatus {
-    Completed,
-    Active,
-}
+mod task;
+mod manager;
 
-struct Task {
-    id: usize,
-    title: String,
-    status: TaskStatus,
-}
-
-impl Task {
-    fn change_status(&mut self) {
-        match self.status {
-            TaskStatus::Completed => self.status = TaskStatus::Active,
-            TaskStatus::Active => self.status = TaskStatus::Completed,
-        }
-    }
-}
-
-fn find_task_mut(tasks: &mut [Task], id: usize) -> Option<&mut Task> {
-    for task in tasks {
-        if task.id == id {
-            return Some(task);
-        }
-    }
-    None
-}
-
-fn complete_task_by_id(tasks: &mut [Task], id: usize) -> bool {
-    if let Some(task) = find_task_mut(tasks, id) {
-        task.status = TaskStatus::Completed;
-        true
-    } else {
-        println!("Task {} not found", id);
-        false
-    }
-}
-
-fn delete_task_with_id(tasks: &mut Vec<Task>, id: usize) -> bool {
-    if let Some(index) = tasks.iter().position(|t| t.id == id) {
-        tasks.remove(index);
-        true
-    } else {
-        false
-    }
-}
-
-fn add_task(tasks: &mut Vec<Task>, title: String) {
-    let new_task = Task {
-        id: tasks.len() + 1,
-        title,
-        status: TaskStatus::Active,
-    };
-    tasks.push(new_task);
-}
-
-fn print_task(task: &Task) {
-    println!("Task {}: '{}'", task.id, task.title);
-    match task.status {
-        TaskStatus::Active => println!("Status: Active"),
-        TaskStatus::Completed => println!("Status: Completed"),
-    }
-    println!();
-}
-
-fn count_completed(tasks: &[Task]) -> usize {
-    let mut count = 0;
-    for task in tasks {
-        match task.status {
-            TaskStatus::Completed => count += 1,
-            TaskStatus::Active => {}
-        }
-    }
-    count
-}
+use manager::TaskManager;
 
 fn main() {
-    let mut tasks = vec![
-        Task {
-            id: 1,
-            title: String::from("Learning Rust"),
-            status: TaskStatus::Completed,
-        },
-        Task {
-            id: 2,
-            title: String::from("Making Web App"),
-            status: TaskStatus::Active,
-        },
-    ];
-    if let Some(second_task) = tasks.get_mut(1) {
-        second_task.change_status();
-    } else {
-        println!("Task was not found");
-    }
-    add_task(&mut tasks, String::from("Getting smarter"));
+    let mut manager = TaskManager::new();
 
-    for task in &tasks {
-        print_task(task);
+    manager.add_task(String::from("Rust"));
+    manager.add_task(String::from("React"));
+
+    for task in manager.tasks() {
+        println!("{}: {}", task.id, task.title);
     }
-    let completed = count_completed(&tasks);
-    println!("Completed: {}", completed);
 }
