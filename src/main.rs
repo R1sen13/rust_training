@@ -49,20 +49,20 @@ fn count_completed(tasks: &[Task]) -> usize {
 fn main() {
     let mut tasks = vec![
         Task {
-            title: String::from("Тасочка"),
+            title: String::from("Learning Rust"),
             status: TaskStatus::Completed,
         },
         Task {
-            title: String::from("Йоу"),
+            title: String::from("Making Web App"),
             status: TaskStatus::Active,
         },
     ];
     if let Some(second_task) = tasks.get_mut(1) {
         second_task.change_status();
     } else {
-        println!("Элемента под индексом 1 нет");
+        println!("Task was not found");
     }
-    add_task(&mut tasks, String::from("Йоу"));
+    add_task(&mut tasks, String::from("Getting smarter"));
 
     for task in &tasks {
         print_task(task);
