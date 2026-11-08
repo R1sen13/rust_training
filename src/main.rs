@@ -12,10 +12,18 @@ struct Task {
 impl Task {
     fn change_status(&mut self) {
         match self.status {
-            TaskStatus::Completed => {self.status = TaskStatus::Active},
-            TaskStatus::Active => {self.status = TaskStatus::Completed},
+            TaskStatus::Completed => self.status = TaskStatus::Active,
+            TaskStatus::Active => self.status = TaskStatus::Completed,
         }
     }
+}
+
+fn add_task(tasks: &mut Vec<Task>, title: String) {
+    let new_task = Task {
+        title,
+        status: TaskStatus::Active,
+    };
+    tasks.push(new_task);
 }
 
 fn print_task(task: &Task) {
@@ -32,7 +40,7 @@ fn count_completed(tasks: &[Task]) -> usize {
     for task in tasks {
         match task.status {
             TaskStatus::Completed => count += 1,
-            TaskStatus::Active => {},
+            TaskStatus::Active => {}
         }
     }
     count
@@ -49,7 +57,12 @@ fn main() {
             status: TaskStatus::Active,
         },
     ];
-    tasks[1].change_status();
+    if let Some(second_task) = tasks.get_mut(1) {
+        second_task.change_status();
+    } else {
+        println!("Элемента под индексом 1 нет");
+    }
+    add_task(&mut tasks, String::from("Йоу"));
 
     for task in &tasks {
         print_task(task);
