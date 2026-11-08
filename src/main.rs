@@ -9,6 +9,15 @@ struct Task {
     status: TaskStatus,
 }
 
+impl Task {
+    fn change_status(&mut self) {
+        match self.status {
+            TaskStatus::Completed => {self.status = TaskStatus::Active},
+            TaskStatus::Active => {self.status = TaskStatus::Completed},
+        }
+    }
+}
+
 fn print_task(task: &Task) {
     println!("Задача: '{}'", task.title);
     match task.status {
@@ -30,7 +39,7 @@ fn count_completed(tasks: &[Task]) -> usize {
 }
 
 fn main() {
-    let tasks = vec![
+    let mut tasks = vec![
         Task {
             title: String::from("Тасочка"),
             status: TaskStatus::Completed,
@@ -40,6 +49,7 @@ fn main() {
             status: TaskStatus::Active,
         },
     ];
+    tasks[1].change_status();
 
     for task in &tasks {
         print_task(task);
