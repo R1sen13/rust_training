@@ -9,19 +9,31 @@ fn print_task(task: &Task) {
     println!();
 }
 
+fn count_completed(tasks: &[Task]) -> u32 {
+    let mut count: u32 = 0;
+    for task in tasks {
+        if task.completed == true {
+            count += 1;
+        }
+    }
+    return count;
+}
+
 fn main() {
     let tasks = vec![
         Task {
             title: String::from("Тасочка"),
-            completed: false,
+            completed: true,
         },
         Task {
             title: String::from("Йоу"),
             completed: true,
-        }
+        },
     ];
 
-    for task in tasks {
+    for task in &tasks {
         print_task(&task);
     }
+    let completed = count_completed(&tasks);
+    println!("Completed: {}", completed);
 }
