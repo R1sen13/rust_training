@@ -5,6 +5,7 @@ enum TaskStatus {
 }
 
 struct Task {
+    id: usize,
     title: String,
     status: TaskStatus,
 }
@@ -20,6 +21,7 @@ impl Task {
 
 fn add_task(tasks: &mut Vec<Task>, title: String) {
     let new_task = Task {
+        id: tasks.len() + 1,
         title,
         status: TaskStatus::Active,
     };
@@ -27,7 +29,7 @@ fn add_task(tasks: &mut Vec<Task>, title: String) {
 }
 
 fn print_task(task: &Task) {
-    println!("Задача: '{}'", task.title);
+    println!("Задача {}: '{}'", task.id, task.title);
     match task.status {
         TaskStatus::Active => println!("Статус: Активна"),
         TaskStatus::Completed => println!("Статус: Выполнена"),
@@ -49,10 +51,12 @@ fn count_completed(tasks: &[Task]) -> usize {
 fn main() {
     let mut tasks = vec![
         Task {
+            id: 1,
             title: String::from("Learning Rust"),
             status: TaskStatus::Completed,
         },
         Task {
+            id: 2,
             title: String::from("Making Web App"),
             status: TaskStatus::Active,
         },
