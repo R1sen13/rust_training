@@ -4,11 +4,20 @@ struct Task {
 }
 
 fn main() {
-    let task = Task {
-        title: String::from("Задача 1"),
-        completed: false,
-    };
+    let tasks = vec![
+        Task {
+            title: String::from("Тасочка"),
+            completed: false,
+        },
+        Task {
+            title: String::from("Йоу"),
+            completed: true,
+        }
+    ];
 
-    println!("Задача: '{}'", task.title);
-    println!("Выполнена: {}", task.completed);
+    for task in tasks {
+        println!("Задача: '{}'", task.title);
+        println!("Выполнена: {}", task.completed);
+        println!()
+    }
 }
