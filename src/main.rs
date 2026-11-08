@@ -19,6 +19,16 @@ impl Task {
     }
 }
 
+fn find_task_mut(tasks: &mut [Task], id: usize) -> Option<&mut Task> {
+    for task in tasks {
+        if task.id == id {
+            return Some(task);
+        }
+    }
+
+    None
+}
+
 fn add_task(tasks: &mut Vec<Task>, title: String) {
     let new_task = Task {
         id: tasks.len() + 1,
