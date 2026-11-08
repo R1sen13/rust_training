@@ -25,8 +25,26 @@ fn find_task_mut(tasks: &mut [Task], id: usize) -> Option<&mut Task> {
             return Some(task);
         }
     }
-
     None
+}
+
+fn complete_task_by_id(tasks: &mut [Task], id: usize) -> bool {
+    if let Some(task) = find_task_mut(tasks, id) {
+        task.status = TaskStatus::Completed;
+        true
+    } else {
+        println!("Task {} not found", id);
+        false
+    }
+}
+
+fn delete_task_with_id(tasks: &mut Vec<Task>, id: usize) -> bool {
+    if let Some(index) = tasks.iter().position(|t| t.id == id) {
+        tasks.remove(index);
+        true
+    } else {
+        false
+    }
 }
 
 fn add_task(tasks: &mut Vec<Task>, title: String) {
@@ -39,10 +57,10 @@ fn add_task(tasks: &mut Vec<Task>, title: String) {
 }
 
 fn print_task(task: &Task) {
-    println!("Задача {}: '{}'", task.id, task.title);
+    println!("Task {}: '{}'", task.id, task.title);
     match task.status {
-        TaskStatus::Active => println!("Статус: Активна"),
-        TaskStatus::Completed => println!("Статус: Выполнена"),
+        TaskStatus::Active => println!("Status: Active"),
+        TaskStatus::Completed => println!("Status: Completed"),
     }
     println!();
 }
