@@ -3,6 +3,12 @@ struct Task {
     completed: bool,
 }
 
+fn print_task(task: &Task) {
+    println!("Задача: '{}'", task.title);
+    println!("Выполнена: {}", task.completed);
+    println!();
+}
+
 fn main() {
     let tasks = vec![
         Task {
@@ -16,8 +22,6 @@ fn main() {
     ];
 
     for task in tasks {
-        println!("Задача: '{}'", task.title);
-        println!("Выполнена: {}", task.completed);
-        println!()
+        print_task(&task);
     }
 }
