@@ -12,7 +12,7 @@ fn print_task(task: &Task) {
 fn count_completed(tasks: &[Task]) -> usize {
     let mut count = 0;
     for task in tasks {
-        if task.completed == true {
+        if task.completed {
             count += 1;
         }
     }
@@ -32,7 +32,7 @@ fn main() {
     ];
 
     for task in &tasks {
-        print_task(&task);
+        print_task(task);
     }
     let completed = count_completed(&tasks);
     println!("Completed: {}", completed);
