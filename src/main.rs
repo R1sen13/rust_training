@@ -9,14 +9,14 @@ fn print_task(task: &Task) {
     println!();
 }
 
-fn count_completed(tasks: &[Task]) -> u32 {
-    let mut count: u32 = 0;
+fn count_completed(tasks: &[Task]) -> usize {
+    let mut count = 0;
     for task in tasks {
         if task.completed == true {
             count += 1;
         }
     }
-    return count;
+    count
 }
 
 fn main() {
