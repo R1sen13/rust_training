@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
 use crate::parser::flags::new_flags::NewTemplates;
-use crate::logs::logs;
+use crate::logs;
 
 pub fn execute(
     name: String,

@@ -1,1 +1,3 @@
-pub mod logs;
+mod logs;
+
+pub use logs::{debug, error, log, warn};
