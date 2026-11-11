@@ -1,5 +1,6 @@
 mod parser;
 mod commands;
+mod logs;
 
 use parser::{Cli, Commands};
 use clap::Parser;
