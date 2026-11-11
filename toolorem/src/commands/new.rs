@@ -8,10 +8,16 @@ pub fn execute(
     path: Option<PathBuf>,
     template: Option<NewTemplates>,
 ) {
-    let project_path = path.unwrap_or_else(|| PathBuf::from("."));
-    let project_template = template.unwrap_or(NewTemplates::React);
+    let base_path = path.unwrap_or_else(|| PathBuf::from("."));
+    let project_path = base_path.join(name);
 
-    logs::log(&format!("Создаем проект: {}", name));
-    logs::warn(&format!("Путь: {:?}", project_path));
-    logs::error(&format!("По шаблону: {:?}", project_template));
+    if project_path.exists() {
+        logs::warn(&format!("The current path '{}' already contains files", project_path.display()));
+        return;
+    }
+    std::fs::create_dir_all(&project_path);
+    logs::log(&format!("Project has being created in '{}'", project_path.display()));
+
+    let project_template = template.unwrap_or(NewTemplates::React);
+    return;
 }
