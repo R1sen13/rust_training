@@ -1,4 +1,8 @@
 use clap::{Parser, Subcommand};
+use std::path::PathBuf;
+
+use super::flags::new_flags::NewTemplates;
+
 
 #[derive(Parser)]
 pub struct Cli {
@@ -10,5 +14,11 @@ pub struct Cli {
 pub enum Commands {
     New {
         name: String,
+
+        #[arg(long)]
+        path: Option<PathBuf>,
+
+        #[arg(long)]
+        template: Option<NewTemplates>,
     }
 }
