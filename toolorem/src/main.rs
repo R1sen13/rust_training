@@ -1,16 +1,16 @@
 mod parser;
+mod commands;
 
 use parser::{Cli, Commands};
 use clap::Parser;
+use commands::new;
 
 fn main() {
     let cli = Cli::parse();
 
     match cli.command {
         Commands::New { name, path, template } => {
-            println!("Создаем проект: {}", name);
-            println!("Путь: {:?}", path);
-            println!("По шаблону: {:?}", template)
+            new::execute(name, path, template);
         },
     }
 }
