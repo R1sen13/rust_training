@@ -9,7 +9,8 @@ pub fn execute(
     template: Option<NewTemplates>,
 ) {
     let base_path = path.unwrap_or_else(|| PathBuf::from("."));
-    let project_path = base_path.join(name);
+    let project_path = base_path.join(&name);
+    logs::log(&format!("Starting the creation of {:?} project\nName of project: {}\nPath of the project: {}", template, String::from(&name), project_path.display()));
 
     if project_path.exists() {
         logs::warn(&format!("The current path '{}' already contains files", project_path.display()));
