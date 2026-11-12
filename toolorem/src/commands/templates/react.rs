@@ -6,7 +6,17 @@ pub fn generate_react(name: &str, base_path: PathBuf) -> Result<ExitStatus, std:
     logs::debug("Starting React initialiser");
     //TODO make linux accessibility
     Command::new("npm.cmd")
-        .args(["create", "vite@latest", &name, "--", "--template", "react"])
+        .args([
+            "create",
+            "vite@latest",
+            name,
+            "--",
+            "--template",
+            "react",
+            "--no-interactive",
+            "--no-eslint",
+            "--immediate", //TODO Remove this flag and make manual startup
+        ])
         .current_dir(&base_path)
         .status()
 }
