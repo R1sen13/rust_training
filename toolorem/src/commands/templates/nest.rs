@@ -2,6 +2,8 @@ use std::process::{Command, ExitStatus};
 use std::path::PathBuf;
 use crate::logs;
 
+pub struct NestBuilder;
+
 pub fn generate_nest(name: &str, base_path: PathBuf) -> Result<ExitStatus, std::io::Error> {
     logs::debug("Starting NestJs initialiser");
     //TODO make Linux accessibility
@@ -70,4 +72,11 @@ pub fn add_scripts(package_path: PathBuf) -> Result<(), std::io::Error> {
     logs::debug("Package.json written");
 
     Ok(())
+}
+
+impl ProjectBuilder for NestBuilder {
+    fn build(&self, name: &str, base_path: PathBuf, package_path: PathBuf) -> Result<ExitStatus, std::io::Error> {
+        generate_nest(name, base_path);
+        add_scripts(package_path)?;
+    }
 }
