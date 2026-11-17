@@ -4,7 +4,7 @@ use crate::logs;
 
 pub fn generate_react(name: &str, base_path: PathBuf) -> Result<ExitStatus, std::io::Error> {
     logs::debug("Starting React initialiser");
-    //TODO make linux accessibility
+    //TODO make Linux accessibility
     Command::new("npm.cmd")
         .args([
             "create",
