@@ -6,7 +6,13 @@ enum Direction {
     Right
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
+enum MoveResult {
+    Moved(Position),
+    Blocked(Position),
+}
+
+#[derive(Debug, Clone, Copy)]
 struct Position {
     x: i32,
     y: i32,
@@ -26,7 +32,7 @@ struct Map {
 
 impl Map {
     fn contains(&self, position: &Position) -> bool {
-        !(position.x >= self.width || position.x < 0 || position.y >= self.height || position.y < 0)
+        !(position.x >= self.width as i32 || position.x < 0 || position.y >= self.height as i32 || position.y < 0)
     }
 }
 
@@ -45,8 +51,8 @@ impl Player {
         }
     }
 
-    fn try_move(&mut self, direction: Direction, map: &Map) -> bool {
-        let current_position = self.position;
+    fn try_move(&mut self, direction: Direction, map: &Map) -> MoveResult {
+        let mut current_position = self.position;
 
         match direction {
             Direction::Up => current_position.y += 1,
@@ -56,12 +62,12 @@ impl Player {
         }
 
         if (!map.contains(&current_position)) {
-            return false;
+            return  MoveResult::Blocked(current_position);
         }
 
         self.move_by(direction);
-        
-        return true;
+
+        return MoveResult::Moved(current_position);
     }
 
     fn take_damage(&mut self, damage: u32) {
