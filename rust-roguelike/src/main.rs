@@ -1,3 +1,11 @@
+#[derive(Debug, Clone, Copy)]
+enum Direction {
+    Up,
+    Down,
+    Left,
+    Right
+}
+
 #[derive(Debug)]
 struct Position {
     x: i32,
@@ -11,9 +19,13 @@ struct Player {
 }
 
 impl Player {
-    fn move_by(&mut self, dx: i32, dy: i32) {
-        self.position.x += dx;
-        self.position.y += dy;
+    fn move_by(&mut self, direction: Direction) {
+        match direction {
+            Direction::Up => self.position.y += 1,
+            Direction::Down => self.position.y -= 1,
+            Direction::Left => self.position.x -= 1,
+            Direction::Right => self.position.x += 1
+        }
     }
 
     fn take_damage(&mut self, damage: u32) {
@@ -31,10 +43,12 @@ fn main() {
         health: 20,
     };
     println!("{:?}", player);
-    player.move_by(1, 5);
+    player.move_by(Direction::Down);
+    player.move_by(Direction::Right);
     player.take_damage(15);
     println!("{:?}", player);
-    player.move_by(-2, -10);
+    player.move_by(Direction::Left);
+    player.move_by(Direction::Up);
     player.take_damage(50);
     println!("{:?}", player);
     let status = player.is_alive();
