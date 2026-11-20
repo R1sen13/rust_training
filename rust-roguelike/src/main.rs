@@ -7,6 +7,12 @@ enum Direction {
 }
 
 #[derive(Debug, Clone, Copy)]
+enum DamageResult {
+    Damaged { previous: u32, current: u32 },
+    Died,
+}
+
+#[derive(Debug, Clone, Copy)]
 enum MoveResult {
     Moved(Position),
     Blocked(Position),
@@ -70,8 +76,19 @@ impl Player {
         return MoveResult::Moved(current_position);
     }
 
-    fn take_damage(&mut self, damage: u32) {
-        self.health = if damage >= self.health { 0 } else { self.health - damage };
+    fn take_damage(&mut self, damage: u32) -> DamageResult {
+        return if self.health == 0 {
+            DamageResult::Died
+        } else {
+            let previous = self.health;
+            self.health = if damage >= self.health { 0 } else { self.health - damage };
+            let current = self.health;
+            return if current == 0 {
+                DamageResult::Died
+            } else {
+                DamageResult::Damaged { previous, current }
+            }
+        }
     }
 
     fn is_alive(&self) -> bool {
@@ -89,15 +106,13 @@ fn main() {
         position: Position { x: 0, y: 0 },
         health: 20,
     };
-    println!("{:?}", player);
-    player.move_by(Direction::Down);
-    player.move_by(Direction::Right);
-    player.take_damage(15);
-    println!("{:?}", player);
-    player.move_by(Direction::Left);
-    player.move_by(Direction::Up);
-    player.take_damage(50);
-    println!("{:?}", player);
-    let status = player.is_alive();
-    println!("{}", status);
+
+    match player.take_damage(20) {
+        DamageResult::Damaged { previous, current } => println!("Damaged {} for {}", current, previous),
+        DamageResult::Died => println!("Game over!"),
+    }
+    match player.take_damage(20) {
+        DamageResult::Damaged { previous, current } => println!("Damaged {} for {}", current, previous),
+        DamageResult::Died => println!("Game over!"),
+    }
 }
