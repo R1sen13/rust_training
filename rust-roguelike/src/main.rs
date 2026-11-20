@@ -7,6 +7,13 @@ enum Direction {
 }
 
 #[derive(Debug, Clone, Copy)]
+enum Action {
+    Wait,
+    Move(Direction),
+    Quit
+}
+
+#[derive(Debug, Clone, Copy)]
 enum DamageResult {
     Damaged { previous: u32, current: u32 },
     Died,
@@ -99,6 +106,14 @@ impl Player {
         self.position.x = position.x;
         self.position.y = position.y;
     }
+
+    fn apply_action(&mut self, action: Action, map: &Map) {
+        match action {
+            Action::Wait => println!("Health: {}\nYou are waiting", self.health),
+            Action::Move(direction) => { let position = self.try_move(direction, map); println!("Moved: {:?}", position) },
+            Action::Quit => { println!("Quiting..."); std::process::exit(0); },
+        }
+    }
 }
 
 fn main() {
@@ -107,12 +122,12 @@ fn main() {
         health: 20,
     };
 
-    match player.take_damage(20) {
-        DamageResult::Damaged { previous, current } => println!("Damaged {} for {}", current, previous),
-        DamageResult::Died => println!("Game over!"),
-    }
-    match player.take_damage(20) {
-        DamageResult::Damaged { previous, current } => println!("Damaged {} for {}", current, previous),
-        DamageResult::Died => println!("Game over!"),
-    }
+    let mut map = Map {
+        width: 800,
+        height: 600,
+    };
+
+    player.apply_action(Action::Move(Direction::Up), &map);
+    player.apply_action(Action::Wait, &map);
+    player.apply_action(Action::Quit, &map);
 }
